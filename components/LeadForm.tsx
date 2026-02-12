@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { LeadFormData, OrderRow } from '../types.ts';
 import { MENU_ITEMS, BUSINESS_INFO } from '../constants.ts';
 
-// Webhook URL provided for data logging
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzqZez559VIifmiMQcoDLpSx2EAPoX8lKikER5QWrU/dev';
+// Updated Webhook URL provided by the user
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxYImSHbLZdv5asVDbTS2upWRhFVYy6Lb3MfPaQrXJRuFQ1Kv3h_5McNnW7SYHUG_OI/exec';
 
 const LeadForm: React.FC = () => {
   const [formData, setFormData] = useState<LeadFormData>({
@@ -27,7 +27,6 @@ const LeadForm: React.FC = () => {
     const itemsString = getFormattedItems();
     const remark = formData.message || '-';
     
-    // Exact format requested:
     // NEW INQUIRY
     // Name: {name}
     // Phone: {phone}
@@ -57,7 +56,11 @@ const LeadForm: React.FC = () => {
     };
 
     try {
-      // Log to Google Sheets
+      /**
+       * We use 'no-cors' mode for Google Apps Script webhooks. 
+       * This allows the request to be sent even if the server doesn't 
+       * explicitly handle CORS headers. 
+       */
       await fetch(WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -69,9 +72,6 @@ const LeadForm: React.FC = () => {
 
       setIsSubmitting(false);
       setSubmitted(true);
-      
-      // Optionally trigger WhatsApp automatically on success, 
-      // but usually better to let user click the button to avoid pop-up blocks
     } catch (err) {
       console.error('Submission error:', err);
       setError('Something went wrong sending your enquiry. Please try using WhatsApp directly.');
@@ -111,7 +111,7 @@ const LeadForm: React.FC = () => {
             <h2 className="text-sm font-bold text-primary tracking-widest uppercase">Quick Order</h2>
             <h3 className="text-4xl md:text-5xl font-bold font-display text-secondary leading-tight">Start Your Delicious Journey</h3>
             <p className="text-gray-500 text-lg">
-              Fill in the form below. Once you click "Submit", you can also send the order directly to our WhatsApp for faster processing!
+              Fill in the form below. Once you click "Submit", your enquiry will be logged and you can also send the order directly to our WhatsApp for faster processing!
             </p>
             
             <div className="space-y-6 pt-4">
@@ -137,7 +137,7 @@ const LeadForm: React.FC = () => {
               <div className="flex flex-col items-center justify-center h-full text-center space-y-6 py-12 animate-in">
                 <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl">✅</div>
                 <h4 className="text-3xl font-bold text-secondary">Enquiry Saved!</h4>
-                <p className="text-gray-600">Your enquiry has been logged. To get a faster reply, please click the button below to send it to our WhatsApp.</p>
+                <p className="text-gray-600">Your enquiry has been logged to our system. For the fastest response, please send the pre-filled message to our WhatsApp.</p>
                 <a 
                   href={getWhatsAppLink()}
                   target="_blank"
@@ -258,7 +258,7 @@ const LeadForm: React.FC = () => {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Saving Enquiry...
+                        Logging Enquiry...
                       </>
                     ) : 'Submit Enquiry'}
                   </button>
