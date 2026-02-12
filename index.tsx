@@ -1,23 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
-console.log("FlavorPro Application Initializing...");
+const mountApp = () => {
+  const container = document.getElementById('root');
+  if (!container) {
+    console.error("Failed to find the root element");
+    return;
+  }
 
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  console.error("Critical Error: Could not find root element with id 'root'");
-  throw new Error("Could not find root element to mount to");
-}
+  try {
+    const root = createRoot(container);
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+    console.log("App mounted successfully");
+  } catch (error) {
+    console.error("Rendering error:", error);
+    container.innerHTML = `<div style="padding: 20px; text-align: center;"><h1>Something went wrong</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p></div>`;
+  }
+};
 
-try {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-  console.log("FlavorPro Application Mounted Successfully.");
-} catch (error) {
-  console.error("Critical Error during mounting:", error);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  mountApp();
+} else {
+  window.addEventListener('DOMContentLoaded', mountApp);
 }
