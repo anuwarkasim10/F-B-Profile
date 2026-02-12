@@ -1,5 +1,4 @@
-
-import { FoodItem, Feature } from './types';
+import { FoodItem, Feature } from './types.ts';
 
 export const MENU_ITEMS: FoodItem[] = [
   {

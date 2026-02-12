@@ -1,11 +1,9 @@
-
 import React from 'react';
-import { FEATURES } from '../constants';
+import { FEATURES } from '../constants.ts';
 
 const Features: React.FC = () => {
   return (
     <section id="why-us" className="py-24 bg-secondary text-white relative overflow-hidden">
-      {/* Texture Background */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <path d="M0 0 L100 100 M100 0 L0 100" stroke="currentColor" strokeWidth="0.1" fill="none" />
@@ -40,7 +38,6 @@ const Features: React.FC = () => {
               alt="Kitchen workflow" 
               className="rounded-3xl shadow-2xl border-4 border-white/10"
             />
-            {/* Absolute element */}
             <div className="absolute -top-10 -right-10 w-48 h-48 bg-primary rounded-full -z-10 blur-3xl opacity-20"></div>
           </div>
         </div>

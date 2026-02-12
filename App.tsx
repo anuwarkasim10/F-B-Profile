@@ -1,12 +1,11 @@
-
 import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Menu from './components/Menu';
-import Features from './components/Features';
-import LeadForm from './components/LeadForm';
-import Footer from './components/Footer';
+import Navbar from './components/Navbar.tsx';
+import Hero from './components/Hero.tsx';
+import About from './components/About.tsx';
+import Menu from './components/Menu.tsx';
+import Features from './components/Features.tsx';
+import LeadForm from './components/LeadForm.tsx';
+import Footer from './components/Footer.tsx';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +23,8 @@ const App: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="https://wa.me/15551234567" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#25D366] text-white px-10 py-4 rounded-2xl font-bold text-xl hover:bg-[#128C7E] transition-all shadow-xl flex items-center justify-center gap-2"
               >
                 WhatsApp Us Now
@@ -46,6 +47,8 @@ const App: React.FC = () => {
       <div className="md:hidden fixed bottom-6 right-6 z-40">
         <a 
           href="https://wa.me/15551234567" 
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-16 h-16 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center animate-pulse"
         >
           <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">

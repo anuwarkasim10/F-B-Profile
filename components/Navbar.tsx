@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { BUSINESS_INFO } from '../constants';
+import { BUSINESS_INFO } from '../constants.ts';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,6 +54,8 @@ const Navbar: React.FC = () => {
         <div className="md:hidden">
           <a 
             href={BUSINESS_INFO.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-primary p-2 rounded-full text-white"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

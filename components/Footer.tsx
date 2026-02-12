@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { BUSINESS_INFO } from '../constants';
+import { BUSINESS_INFO } from '../constants.ts';
 
 const Footer: React.FC = () => {
   return (
@@ -16,8 +15,8 @@ const Footer: React.FC = () => {
               We serve the freshest ingredients with a side of love. Join us for a meal you won't forget.
             </p>
             <div className="flex gap-4">
-              <a href={BUSINESS_INFO.facebook} className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary transition-colors">f</a>
-              <a href={BUSINESS_INFO.instagram} className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary transition-colors">ig</a>
+              <a href={BUSINESS_INFO.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary transition-colors">f</a>
+              <a href={BUSINESS_INFO.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-primary transition-colors">ig</a>
             </div>
           </div>
 

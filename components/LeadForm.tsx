@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
-import { LeadFormData } from '../types';
-import { MENU_ITEMS, BUSINESS_INFO } from '../constants';
+import { LeadFormData } from '../types.ts';
+import { MENU_ITEMS, BUSINESS_INFO } from '../constants.ts';
 
 const LeadForm: React.FC = () => {
   const [formData, setFormData] = useState<LeadFormData>({
@@ -23,7 +22,7 @@ const LeadForm: React.FC = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
-      // Reset after 3 seconds
+      // Reset after 5 seconds
       setTimeout(() => setSubmitted(false), 5000);
     }, 1500);
   };
@@ -140,6 +139,8 @@ const LeadForm: React.FC = () => {
                   </button>
                   <a 
                     href={BUSINESS_INFO.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex-1 bg-[#25D366] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#128C7E] transition-all shadow-lg text-center flex items-center justify-center gap-2"
                   >
                     Order via WhatsApp

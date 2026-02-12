@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { MENU_ITEMS } from '../constants';
+import { MENU_ITEMS } from '../constants.ts';
 
 const Menu: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'main' | 'side' | 'combo'>('all');
