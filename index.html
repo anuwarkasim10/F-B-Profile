@@ -53,6 +53,13 @@
         font-size: 1.5rem;
         color: #FF6B35;
       }
+      .animate-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
     </style>
   </head>
   <body class="bg-cream text-secondary">

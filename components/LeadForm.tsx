@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { LeadFormData, OrderRow } from '../types.ts';
 import { MENU_ITEMS, BUSINESS_INFO } from '../constants.ts';
 
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqcpHsg4HIrv_YO5oDg9MNCxP3o0zIiFq_UpBNukw_Bxwhqsw8LPLDaO0htVGNo0Ey/exec';
+
 const LeadForm: React.FC = () => {
   const [formData, setFormData] = useState<LeadFormData>({
     name: '',
@@ -12,17 +14,46 @@ const LeadForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
+    setError(null);
+
+    const orderSummary = formData.items
+      .map(item => `${item.foodName} (x${item.quantity})`)
+      .join(', ');
+
+    const payload = {
+      timestamp: new Date().toLocaleString(),
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email || 'N/A',
+      orders: orderSummary,
+      message: formData.message || 'No message'
+    };
+
+    try {
+      // Use no-cors for Google Apps Script webhooks if they don't have proper CORS headers configured,
+      // as it still triggers the script but won't let us read the response body.
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      // Since we use no-cors, we assume success if no exception is thrown
       setIsSubmitting(false);
       setSubmitted(true);
-      // Reset after 10 seconds or when user clicks 'Send another'
-    }, 1500);
+    } catch (err) {
+      console.error('Submission error:', err);
+      setError('Something went wrong sending your enquiry. Please try again or use WhatsApp.');
+      setIsSubmitting(false);
+    }
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -88,10 +119,10 @@ const LeadForm: React.FC = () => {
 
           <div className="bg-cream p-8 md:p-12 rounded-[2rem] shadow-xl border border-primary/10 relative overflow-hidden">
             {submitted ? (
-              <div className="flex flex-col items-center justify-center h-full text-center space-y-6 py-12">
+              <div className="flex flex-col items-center justify-center h-full text-center space-y-6 py-12 animate-in">
                 <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl">🎉</div>
                 <h4 className="text-3xl font-bold text-secondary">Inquiry Received!</h4>
-                <p className="text-gray-600">We've received your request for {formData.items.length} item(s). Our team will contact you at {formData.phone} shortly!</p>
+                <p className="text-gray-600">We've received your request for {formData.items.length} item(s) and logged it to our system. Our team will contact you at {formData.phone} shortly!</p>
                 <button 
                   onClick={() => setSubmitted(false)}
                   className="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-accent transition-all"
@@ -101,6 +132,11 @@ const LeadForm: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-bold">
+                    {error}
+                  </div>
+                )}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-secondary">Full Name</label>
@@ -131,7 +167,7 @@ const LeadForm: React.FC = () => {
                 <div className="space-y-4">
                   <label className="text-sm font-bold text-secondary block">Your Items</label>
                   {formData.items.map((item, index) => (
-                    <div key={index} className="flex gap-3 items-end animate-in fade-in slide-in-from-left-2">
+                    <div key={index} className="flex gap-3 items-end animate-in">
                       <div className="flex-[3] space-y-1">
                         <select 
                           value={item.foodName}
@@ -189,9 +225,17 @@ const LeadForm: React.FC = () => {
                   <button 
                     disabled={isSubmitting}
                     type="submit"
-                    className="flex-1 bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-lg shadow-primary/20 disabled:opacity-50"
+                    className="flex-1 bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-lg shadow-primary/20 disabled:opacity-50 flex items-center justify-center gap-2"
                   >
-                    {isSubmitting ? 'Sending...' : 'Submit Enquiry'}
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Submitting...
+                      </>
+                    ) : 'Submit Enquiry'}
                   </button>
                   <a 
                     href={getWhatsAppLink()}
