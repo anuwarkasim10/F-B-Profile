@@ -1,4 +1,3 @@
-
 export interface FoodItem {
   id: string;
   name: string;
@@ -8,12 +7,16 @@ export interface FoodItem {
   category: 'main' | 'side' | 'combo';
 }
 
+export interface OrderRow {
+  foodName: string;
+  quantity: number;
+}
+
 export interface LeadFormData {
   name: string;
   phone: string;
   email?: string;
-  foodChoice: string;
-  quantity: number;
+  items: OrderRow[];
   message?: string;
 }
 

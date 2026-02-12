@@ -6,6 +6,7 @@ import Menu from './components/Menu.tsx';
 import Features from './components/Features.tsx';
 import LeadForm from './components/LeadForm.tsx';
 import Footer from './components/Footer.tsx';
+import { BUSINESS_INFO } from './constants.ts';
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
   constructor(props: { children: React.ReactNode }) {
@@ -59,7 +60,7 @@ const App: React.FC = () => {
               <h3 className="text-4xl md:text-5xl font-bold font-display mb-8">Hungry? Let's Talk!</h3>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
-                  href="https://wa.me/15551234567" 
+                  href={BUSINESS_INFO.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#25D366] text-white px-10 py-4 rounded-2xl font-bold text-xl hover:bg-[#128C7E] transition-all shadow-xl flex items-center justify-center gap-2"
@@ -84,7 +85,7 @@ const App: React.FC = () => {
         {/* Persistent CTA for Mobile */}
         <div className="md:hidden fixed bottom-6 right-6 z-40">
           <a 
-            href="https://wa.me/15551234567" 
+            href={BUSINESS_INFO.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
             className="w-16 h-16 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center animate-pulse"
