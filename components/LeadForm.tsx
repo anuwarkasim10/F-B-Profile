@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { LeadFormData, OrderRow } from '../types.ts';
 import { MENU_ITEMS, BUSINESS_INFO } from '../constants.ts';
 
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwqcpHsg4HIrv_YO5oDg9MNCxP3o0zIiFq_UpBNukw_Bxwhqsw8LPLDaO0htVGNo0Ey/exec';
+// Updated Webhook URL provided by the user
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzqZez559VIifmiMQcoDLpSx2EAPoX8lKikER5QWrU/dev';
 
 const LeadForm: React.FC = () => {
   const [formData, setFormData] = useState<LeadFormData>({
@@ -35,18 +36,23 @@ const LeadForm: React.FC = () => {
     };
 
     try {
-      // Use no-cors for Google Apps Script webhooks if they don't have proper CORS headers configured,
-      // as it still triggers the script but won't let us read the response body.
+      /**
+       * We use 'no-cors' mode for Google Apps Script webhooks. 
+       * This allows the request to be sent even if the server doesn't 
+       * explicitly handle CORS headers, which is common for Apps Script.
+       * Note: 'no-cors' means we can't read the response body, but the POST 
+       * will still reach the script and trigger the spreadsheet update.
+       */
       await fetch(WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'text/plain',
         },
         body: JSON.stringify(payload),
       });
 
-      // Since we use no-cors, we assume success if no exception is thrown
+      // We assume success as 'no-cors' hides response details
       setIsSubmitting(false);
       setSubmitted(true);
     } catch (err) {
