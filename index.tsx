@@ -2,29 +2,18 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
-const mountApp = () => {
-  const container = document.getElementById('root');
-  if (!container) {
-    console.error("Failed to find the root element");
-    return;
-  }
+console.info("FlavorPro: Initializing application...");
 
-  try {
-    const root = createRoot(container);
-    root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    );
-    console.log("App mounted successfully");
-  } catch (error) {
-    console.error("Rendering error:", error);
-    container.innerHTML = `<div style="padding: 20px; text-align: center;"><h1>Something went wrong</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p></div>`;
-  }
-};
+const container = document.getElementById('root');
 
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  mountApp();
+if (container) {
+  const root = createRoot(container);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+  console.info("FlavorPro: App mounted.");
 } else {
-  window.addEventListener('DOMContentLoaded', mountApp);
+  console.error("FlavorPro: Could not find root element.");
 }
