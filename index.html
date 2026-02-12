@@ -11,6 +11,13 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+      // Ensure process.env exists to prevent ReferenceErrors in browser environments
+      // This must run BEFORE any modules that attempt to access process.env
+      window.process = window.process || { env: {} };
+    </script>
+
     <script>
       tailwind.config = {
         theme: {
@@ -44,7 +51,7 @@
   </head>
   <body class="bg-cream text-secondary">
     <div id="root"></div>
-    <!-- Crucial entry point script -->
+    <!-- The application entry point -->
     <script type="module" src="./index.tsx"></script>
   </body>
 </html>

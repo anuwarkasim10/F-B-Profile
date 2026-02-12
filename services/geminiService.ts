@@ -1,13 +1,17 @@
 import { GoogleGenAI } from "@google/genai";
 import { MENU_ITEMS } from '../constants.ts';
 
-const API_KEY = process.env.API_KEY;
-
 export const getAIRecommendation = async (mood: string, hungerLevel: string): Promise<string> => {
-  if (!API_KEY) return "Please check your configuration.";
+  // Guidelines: API key MUST be obtained exclusively from process.env.API_KEY
+  const apiKey = process.env.API_KEY;
+  
+  if (!apiKey) {
+    console.warn("Gemini API Key is missing. Using fallback recommendation.");
+    return "I recommend our Signature BBQ Burger - it's perfect for satisfying any hunger!";
+  }
 
   try {
-    const ai = new GoogleGenAI({ apiKey: API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     const menuSummary = MENU_ITEMS.map(item => `${item.name}: ${item.description}`).join('\n');
 
     const prompt = `
@@ -29,6 +33,7 @@ export const getAIRecommendation = async (mood: string, hungerLevel: string): Pr
       }
     });
 
+    // Extract text directly from property as per @google/genai guidelines
     return response.text || "Everything on our menu is delicious! How about a Burger?";
   } catch (error) {
     console.error("Gemini Error:", error);
