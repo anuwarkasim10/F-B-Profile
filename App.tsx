@@ -6,7 +6,6 @@ import Menu from './components/Menu.tsx';
 import Features from './components/Features.tsx';
 import LeadForm from './components/LeadForm.tsx';
 import Footer from './components/Footer.tsx';
-import FlavorAssistant from './components/FlavorAssistant.tsx';
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
   constructor(props: { children: React.ReactNode }) {
@@ -52,11 +51,6 @@ const App: React.FC = () => {
           <Hero />
           <About />
           
-          {/* AI Assistant Section */}
-          <section className="bg-cream py-12">
-            <FlavorAssistant />
-          </section>
-
           <Menu />
           <Features />
           
