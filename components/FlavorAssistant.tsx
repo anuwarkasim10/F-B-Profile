@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { getAIRecommendation } from '../services/geminiService';
+import { getAIRecommendation } from '../services/geminiService.ts';
 
 const FlavorAssistant: React.FC = () => {
   const [mood, setMood] = useState('');

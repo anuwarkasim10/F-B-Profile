@@ -6,6 +6,7 @@ import Menu from './components/Menu.tsx';
 import Features from './components/Features.tsx';
 import LeadForm from './components/LeadForm.tsx';
 import Footer from './components/Footer.tsx';
+import FlavorAssistant from './components/FlavorAssistant.tsx';
 
 const App: React.FC = () => {
   return (
@@ -15,8 +16,15 @@ const App: React.FC = () => {
       <main>
         <Hero />
         <About />
+        
+        {/* AI Assistant Section */}
+        <section className="bg-cream py-12">
+          <FlavorAssistant />
+        </section>
+
         <Menu />
         <Features />
+        
         <section className="py-24 bg-cream text-center">
           <div className="max-w-4xl mx-auto px-4">
             <h3 className="text-4xl md:text-5xl font-bold font-display mb-8">Hungry? Let's Talk!</h3>
@@ -38,6 +46,7 @@ const App: React.FC = () => {
             </div>
           </div>
         </section>
+        
         <LeadForm />
       </main>
 
