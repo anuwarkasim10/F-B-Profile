@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { MENU_ITEMS } from '../constants';
-import FlavorAssistant from './FlavorAssistant';
 
 const Menu: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'main' | 'side' | 'combo'>('all');
@@ -67,11 +66,6 @@ const Menu: React.FC = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* AI Integration */}
-        <div className="mt-20">
-          <FlavorAssistant />
         </div>
       </div>
     </section>
